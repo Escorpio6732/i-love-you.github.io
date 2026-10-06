@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Para ti ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #ff9a9e 0%, #fecfef 40%, #f6f3ff 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .overlay-hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .heart {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: #ff4b6b;
+      transform: rotate(45deg);
+      opacity: 0.7;
+      animation: float 10s linear infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: #ff4b6b;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -9px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -9px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 0.2;
+      }
+      50% {
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(-120vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      width: 95%;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      padding: 28px 24px 32px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      font-size: 2.2rem;
+      color: #ff4b6b;
+      letter-spacing: 1px;
+    }
+
+    .header h2 {
+      font-size: 1.1rem;
+      color: #777;
+      margin-top: 6px;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+      gap: 22px;
+    }
+
+    @media (max-width: 768px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 18px 18px 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid #f5d0dc;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #ff4b6b;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title span.icon {
+      font-size: 1.3rem;
+    }
+
+    .message {
+      line-height: 1.7;
+      font-size: 0.98rem;
+      color: #555;
+      text-align: justify;
+      white-space: pre-line;
+    }
+
+    .signature {
+      margin-top: 16px;
+      text-align: right;
+      font-style: italic;
+      color: #999;
+      font-size: 0.9rem;
+    }
+
+    .photos-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .photo {
+      position: relative;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid #ffd6e3;
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .photo::after {
+      content: "❤️";
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
+      font-size: 1.1rem;
+      text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .photo:hover img {
+      transform: scale(1.08);
+    }
+
+    .music-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .music-info {
+      font-size: 0.95rem;
+      color: #666;
+    }
+
+    .music-info strong {
+      color: #ff4b6b;
+    }
+
+    audio {
+      width: 100%;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff4b6b, #ff9a9e);
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(255, 75, 107, 0.4);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: #ff4b6b;
+      border: 1px solid #ffb6c7;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+
+    .footer-note span {
+      color: #ff4b6b;
+    }
+  </style>
+</head>
+<body>
+  <!-- Corazones flotando -->
+  <div class="overlay-hearts" id="hearts"></div>
+
+  <div class="container">
+    <div class="header">
+      <h1>Para ti, mi amor ❤️</h1>
+      <h2>Porque cada día contigo merece una página especial.</h2>
+    </div>
+
+    <div class="main-grid">
+      <!-- Columna izquierda: mensaje y fotos -->
+      <div class="card">
+        <div class="card-title">
+          <span class="icon">💌</span>
+          <span>Mi mensaje para ti</span>
+        </div>
+        <div class="message" id="message">
+          Hoy quiero recordarte lo importante que sos para mí.
+          Cada momento a tu lado se siente como un regalo,
+          y no hay día en el que no agradezca por tenerte.
+
+          Gracias por tu risa, por tu paciencia, por tus abrazos
+          y por todas esas pequeñas cosas que hacen que mi mundo
+          sea más lindo cuando estás cerca.
+
+          Esta página es solo un detalle, pero lleva todo mi cariño
+          y cada palabra está pensada para vos. 💖
+        </div>
+        <div class="signature">
+          Con todo mi amor,<br />
+          <strong>Lautaro</strong>
+        </div>
+
+        <div class="photos-grid">
+          <!-- Reemplazá las imágenes por fotos de ustedes -->
+          <div class="photo">
+            <img src="https://images.pexels.com/photos/3693901/pexels-photo-3693901.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Foto 1" />
+          </div>
+          <div class="photo">
+            <img src="https://images.pexels.com/photos/3693900/pexels-photo-3693900.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Foto 2" />
+          </div>
+          <div class="photo">
+            <img src="https://images.pexels.com/photos/3693892/pexels-photo-3693892.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Foto 3" />
+          </div>
+          <div class="photo">
+            <img src="https://images.pexels.com/photos/3693891/pexels-photo-3693891.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Foto 4" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna derecha: música y botones -->
+      <div class="card">
+        <div class="card-title">
+          <span class="icon">🎵</span>
+          <span>Nuestra canción</span>
+        </div>
+
+        <div class="music-card">
+          <div class="music-info">
+            Elegí esta cancion por que fue la primera cancion
+            que te hizo pensar en mi segun tu me dijiste.
+            <br /><br />
+            <strong>Nombre de la cancion:</strong> El diablo<br />
+            <strong>Artista:</strong> Mon Laferte
+          </div>
+
+          <!-- Reemplazá el src por un archivo mp3 local o un enlace directo -->
+          <audio controls>
+            <source src="tu-cancion.mp3" type="audio/mpeg" />
+            Tu navegador no soporta audio HTML5.
+          </audio>
+
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="playMusic()">
+              ▶ Reproducir
+            </button>
+            <button class="btn btn-secondary" onclick="scrollToMessage()">
+              💬 Ver mensaje
+            </button>
+          </div>
+        </div>
+
+        <div class="footer-note">
+          Hecho con <span>❤️</span> solo para vos.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Corazones flotando
+    const heartsContainer = document.getElementById("hearts");
+    const HEART_COUNT = 18;
+
+    for (let i = 0; i < HEART_COUNT; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      const left = Math.random() * 100;
+      const delay = Math.random() * 10;
+      const size = 14 + Math.random() * 10;
+      heart.style.left = left + "%";
+      heart.style.animationDelay = delay + "s";
+      heart.style.width = size + "px";
+      heart.style.height = size + "px";
+      heartsContainer.appendChild(heart);
+    }
+
+    function playMusic() {
+      const audio = document.querySelector("audio");
+      if (audio) {
+        audio.play();
+      }
+    }
+
+    function scrollToMessage() {
+      const msg = document.getElementById("message");
+      if (msg) {
+        msg.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  </script>
+</body>
+</html>
